@@ -1,7 +1,25 @@
+import { Link } from '@remix-run/react';
+
+import { useTranslation } from 'react-i18next';
+
 export default function Index() {
+  const {t, i18n} = useTranslation();
+
   return (
     <div style={{fontFamily: 'system-ui, sans-serif', lineHeight: '1.4'}}>
-      <h1>Welcome to Remix</h1>
+      <h1>{t('title')}</h1>
+
+      <div>
+        {['en', 'fr'].map((lng) => (
+          <Link
+            key={lng}
+            style={{marginRight: 5, fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal'}}
+            to={`/?lng=${lng}`}
+          >
+            {lng}
+          </Link>
+        ))}
+      </div>
       <ul>
         <li>
           <a
@@ -9,7 +27,7 @@ export default function Index() {
             href="https://remix.run/tutorials/blog"
             rel="noreferrer"
           >
-            15m Quickstart Blog Tutorial
+            {t('tutorials.blog')}
           </a>
         </li>
         <li>
@@ -18,12 +36,12 @@ export default function Index() {
             href="https://remix.run/tutorials/jokes"
             rel="noreferrer"
           >
-            Deep Dive Jokes App Tutorial
+            {t('tutorials.jokes')}
           </a>
         </li>
         <li>
           <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
+            {t('docs')}
           </a>
         </li>
       </ul>
