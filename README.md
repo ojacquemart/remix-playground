@@ -31,6 +31,14 @@ Open up [http://localhost:3000](http://localhost:3000) and you should be ready t
 
 If you're used to using the `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) instead, you can also use that, but it's not needed.
 
+## I18N
+
+The `/app/i18n/messages` folder contains the translation files.
+
+The application supports two languages: English and French.
+
+The `lang` cookie contains the user's language preference. The route `?lng={lang}` can be used to change the language.
+
 ## Resources
 
 - [Remix Docs](https://remix.run/docs)
