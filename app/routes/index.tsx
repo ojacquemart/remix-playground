@@ -6,8 +6,8 @@ export default function Index() {
   const {t, i18n} = useTranslation();
 
   return (
-    <div style={{fontFamily: 'system-ui, sans-serif', lineHeight: '1.4'}}>
-      <h1>{t('title')} 💿</h1>
+    <div className="flex flex-col justify-center items-center h-screen" style={{fontFamily: 'system-ui, sans-serif', lineHeight: '1.4'}}>
+      <h1 className="text-3xl font-bold">{t('title')} 💿</h1>
 
       <LangSelector currentLang={i18n.resolvedLanguage}></LangSelector>
       <ul>

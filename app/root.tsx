@@ -1,10 +1,12 @@
-import { json, LoaderFunction, MetaFunction } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, } from '@remix-run/react';
+import { json, LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 
 import { useChangeLanguage } from 'remix-i18next';
 
 import { i18nCookie } from '~/i18n/cookie';
 import i18nServer from '~/i18n/i18n.server';
+
+import tailwind from './tailwind.css';
 
 type LoaderData = { locale: string };
 
@@ -14,9 +16,9 @@ export const loader: LoaderFunction = async ({request}) => {
   const title = t('headTitle');
 
   return json({locale, title}, {
-    headers: {'Set-Cookie': await i18nCookie.serialize(locale)}
+    headers: {'Set-Cookie': await i18nCookie.serialize(locale)},
   });
-}
+};
 
 export let handle = {
   // In the handle export, we can add a i18n key with namespaces our route
@@ -32,18 +34,22 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
+export const links: LinksFunction = () => [
+  {rel: 'stylesheet', href: tailwind},
+];
+
 export default function App() {
   const {locale} = useLoaderData<LoaderData>();
 
   useChangeLanguage(locale);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="h-screen">
     <head>
       <Meta/>
       <Links/>
     </head>
-    <body>
+    <body className="h-screen">
       <Outlet/>
       <ScrollRestoration/>
       <Scripts/>

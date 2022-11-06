@@ -20,7 +20,7 @@ export default function LangSelector({currentLang }: LangSelectorProps) {
   const [langs] = useState(DEFAULT_LANGS);
 
   return (
-    <div>
+    <div className="my-4">
       {langs.map((lang) => (
         <Link
           key={lang.key}
