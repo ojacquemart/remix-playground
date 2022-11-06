@@ -5,6 +5,7 @@ import { useChangeLanguage } from 'remix-i18next';
 
 import { i18nCookie } from '~/i18n/cookie';
 import i18nServer from '~/i18n/i18n.server';
+import global from './styles/global.css';
 
 import tailwind from './tailwind.css';
 
@@ -36,6 +37,7 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => [
   {rel: 'stylesheet', href: tailwind},
+  {rel: 'stylesheet', href: global},
 ];
 
 export default function App() {
@@ -50,10 +52,10 @@ export default function App() {
       <Links/>
     </head>
     <body className="h-screen">
-      <Outlet/>
-      <ScrollRestoration/>
-      <Scripts/>
-      <LiveReload/>
+    <Outlet/>
+    <ScrollRestoration/>
+    <Scripts/>
+    <LiveReload/>
     </body>
     </html>
   );

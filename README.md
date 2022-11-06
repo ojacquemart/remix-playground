@@ -42,3 +42,5 @@ The `lang` cookie contains the user's language preference. The route `?lng={lang
 ## Resources
 
 - [Remix Docs](https://remix.run/docs)
+- [Tailwind CSS](https://github.com/remix-run/examples/tree/main/tailwindcss)
+- [Iosevka Web Font](https://github.com/be5invis/Iosevka)

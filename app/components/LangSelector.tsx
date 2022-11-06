@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react';
+
 import { useState } from 'react';
 
 const DEFAULT_LANGS: Lang[] = [
@@ -24,7 +25,8 @@ export default function LangSelector({currentLang }: LangSelectorProps) {
       {langs.map((lang) => (
         <Link
           key={lang.key}
-          style={{marginRight: 5, fontWeight: currentLang === lang.key ? 'bold' : 'normal'}}
+          className={currentLang === lang.key ? 'font-ios-bold': 'undefined'}
+          style={{marginRight: 5}}
           to={`/?lng=${lang.key}`}
         >
           {lang.label}
