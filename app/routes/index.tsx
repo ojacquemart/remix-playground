@@ -1,25 +1,15 @@
-import { Link } from '@remix-run/react';
-
 import { useTranslation } from 'react-i18next';
+
+import LangSelector from '~/components/LangSelector';
 
 export default function Index() {
   const {t, i18n} = useTranslation();
 
   return (
     <div style={{fontFamily: 'system-ui, sans-serif', lineHeight: '1.4'}}>
-      <h1>{t('title')}</h1>
+      <h1>{t('title')} 💿</h1>
 
-      <div>
-        {['en', 'fr'].map((lng) => (
-          <Link
-            key={lng}
-            style={{marginRight: 5, fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal'}}
-            to={`/?lng=${lng}`}
-          >
-            {lng}
-          </Link>
-        ))}
-      </div>
+      <LangSelector currentLang={i18n.resolvedLanguage}></LangSelector>
       <ul>
         <li>
           <a

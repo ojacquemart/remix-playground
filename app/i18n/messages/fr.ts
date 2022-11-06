@@ -1,8 +1,8 @@
 const fr = {
   title: 'Bienvenue sur Remix',
   tutorials: {
-    blog: 'Tutorial "Blog" démarraage rapide en 15 min',
-    jokes: 'Tutorial "Jokes" en profondeur'
+    blog: 'Démarrage rapide en 15 minutes avec le tutorial "Blog"',
+    jokes: 'Plongez au coeur de Remix avec le tutorial "Jokes"'
   },
 };
 
