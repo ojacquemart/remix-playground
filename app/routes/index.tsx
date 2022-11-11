@@ -1,6 +1,7 @@
+import { Link } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 
-import LangSelector from '~/components/LangSelector';
+import { LangSelector } from '~/features/core/components/shared/LangSelector';
 
 export default function Index() {
   const {t, i18n} = useTranslation();
@@ -10,7 +11,14 @@ export default function Index() {
       <h1 className="text-3xl font-bold">{t('title')} 💿</h1>
 
       <LangSelector currentLang={i18n.resolvedLanguage}></LangSelector>
+
       <ul>
+        <li>
+          <Link to="/register">Register</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
         <li>
           <a
             target="_blank"

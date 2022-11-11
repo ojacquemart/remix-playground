@@ -46,16 +46,16 @@ export default function App() {
   useChangeLanguage(locale);
 
   return (
-    <html lang={locale} className="h-screen">
+    <html lang={locale} className="h-screen dark">
     <head>
       <Meta/>
       <Links/>
     </head>
-    <body className="h-screen">
-    <Outlet/>
-    <ScrollRestoration/>
-    <Scripts/>
-    <LiveReload/>
+    <body className="h-screen dark:bg-zinc-900 text-zinc-100">
+      <Outlet/>
+      <ScrollRestoration/>
+      <Scripts/>
+      <LiveReload/>
     </body>
     </html>
   );
