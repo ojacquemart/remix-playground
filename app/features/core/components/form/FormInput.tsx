@@ -15,7 +15,7 @@ export const FormInput = ({name, info, label, type}: FormInputProps) => {
 
   return (
     <div className="mb-2">
-      <label htmlFor={name} className="text-2xl uppercase">{label}</label>
+      <label htmlFor={name} className="text-xl uppercase">{label}</label>
       <input type={type ?? 'string'}
              className="w-full p-2
           text-xl text-zinc-800 font-medium
