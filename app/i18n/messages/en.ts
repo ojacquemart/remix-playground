@@ -26,7 +26,9 @@ const en = {
       title: 'Login',
       noAccount: 'No account yet?',
       registerInstead: 'Register',
+      invalidCredentials: 'Invalid credentials',
       validator: {
+        invalidData: 'Invalid data',
         email: 'Enter your email',
         password: 'Enter your password',
       },

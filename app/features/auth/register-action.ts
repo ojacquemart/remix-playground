@@ -8,7 +8,7 @@ interface AuthActionParams {
   validator: Validator<any>;
 }
 
-export const withAuthAction = async ({request, validator}: AuthActionParams): Promise<Response> => {
+export const withRegisterAction = async ({request, validator}: AuthActionParams): Promise<Response> => {
   const data = await validator.validate(
     await request.formData(),
   );

@@ -26,7 +26,9 @@ const fr = {
       title: 'Se connecter',
       noAccount: 'Pas encore de compte ?',
       registerInstead: 'S\'inscrire',
+      invalidCredentials: 'Identifiants incorrects',
       validator: {
+        invalidData: 'Données invalides',
         email: 'Veuillez saisir votre adresse e-mail',
         password: 'Veuillez saisir votre mot de passe',
       },

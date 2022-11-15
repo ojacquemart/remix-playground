@@ -1,4 +1,5 @@
 import type { ActionFunction } from '@remix-run/node';
+
 import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,7 @@ import { AuthTitle } from '~/features/auth/components/AuthTitle';
 import { CguNotice } from '~/features/auth/components/CguNotice';
 
 import { withRegisterValidator } from '~/features/auth/register-validator';
-import { withAuthAction } from '~/features/auth/with-auth-action';
+import { withRegisterAction } from '~/features/auth/register-action';
 import { FormCheckbox } from '~/features/core/components/form/FormCheckbox';
 
 import { FormInput } from '~/features/core/components/form/FormInput';
@@ -19,7 +20,7 @@ import { SubmitButton } from '~/features/core/components/form/SubmitButton';
 const validator = withRegisterValidator();
 
 export const action: ActionFunction = async ({request}) => {
-  return withAuthAction({request, validator});
+  return withRegisterAction({request, validator});
 };
 
 export default function Register() {
