@@ -5,11 +5,13 @@ const fr = {
       email: 'Email',
       password: 'Mot de passe',
       passwordConfirm: 'Confirmer',
+      username: 'Nom d\'utilisateur',
     },
     continue: 'Continuer',
     continueSubmitting: 'Continuer...',
     invalidEmail: 'L\'adresse e-mail invalide',
     register: {
+      cancel: 'Annuler',
       title: 'Créer un compte',
       showPasswords: 'Afficher les mots de passe',
       cguNotice: 'En cliquant sur Continuer, vous acceptez les <1 style="border-bottom: 1px dashed black">CGU</1>',
@@ -21,6 +23,13 @@ const fr = {
         password: 'Le mot de passe est obligatoire',
         passwordConfirm: 'Les mots de passe ne correspondent pas',
       },
+      username: {
+        title: 'Choisir votre pseudo',
+        required: 'Le pseudo est obligatoire',
+      },
+      greetings: {
+        home: 'Retour vers /',
+      },
     },
     login: {
       title: 'Se connecter',
@@ -31,6 +40,9 @@ const fr = {
         invalidData: 'Données invalides',
         email: 'Veuillez saisir votre adresse e-mail',
         password: 'Veuillez saisir votre mot de passe',
+      },
+      logout: {
+        title: 'Déconnexion',
       },
     },
   },

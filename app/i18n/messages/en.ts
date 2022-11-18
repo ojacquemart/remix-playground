@@ -5,11 +5,13 @@ const en = {
       email: 'Email',
       password: 'Password',
       passwordConfirm: 'Confirm',
+      username: 'Username',
     },
     continue: 'Continue',
     continueSubmitting: 'Continue...',
     invalidEmail: 'Must be a valid email',
     register: {
+      cancel: 'Cancel',
       title: 'Create account',
       showPasswords: 'Show passwords',
       cguNotice: 'By clicking "Continue", you agree to the <1>Terms and conditions</1>',
@@ -20,6 +22,13 @@ const en = {
         email: 'Email is required',
         password: 'Password is required',
         passwordConfirm: 'Passwords must match',
+      },
+      username: {
+        title: 'Select your username',
+        required: 'Username is required',
+      },
+      greetings: {
+        home: 'Go back to /',
       },
     },
     login: {
@@ -32,6 +41,9 @@ const en = {
         email: 'Enter your email',
         password: 'Enter your password',
       },
+    },
+    logout: {
+      title: 'Logout',
     },
   },
   tutorials: {

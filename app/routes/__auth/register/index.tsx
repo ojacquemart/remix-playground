@@ -1,4 +1,5 @@
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction , LoaderFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 
 import { useState } from 'react';
 
@@ -6,24 +7,48 @@ import { useTranslation } from 'react-i18next';
 
 import { ValidatedForm } from 'remix-validated-form';
 
+import { loginAuthenticator } from '~/features/auth/login-authenticator';
+import { registerAuthenticator, registerSessionStorage } from '~/features/auth/register-authenticator';
+import { createRegisterValidator } from '~/features/auth/register-validator';
+
 import { AuthOtherAction } from '~/features/auth/components/AuthOtherAction';
 import { AuthTitle } from '~/features/auth/components/AuthTitle';
-import { CguNotice } from '~/features/auth/components/CguNotice';
 
-import { withRegisterValidator } from '~/features/auth/register-validator';
-import { withRegisterAction } from '~/features/auth/register-action';
+import { CguNotice } from '~/features/auth/components/CguNotice';
 import { FormCheckbox } from '~/features/core/components/form/FormCheckbox';
 
 import { FormInput } from '~/features/core/components/form/FormInput';
 import { SubmitButton } from '~/features/core/components/form/SubmitButton';
+import type { SessionLoaderData } from '~/features/auth/session';
+import { loadSessionError } from '~/features/auth/session';
+import { useLoaderData } from '@remix-run/react';
+import { FormErrorMessage } from '~/features/core/components/form/FormErrorMessage';
 
-const validator = withRegisterValidator();
+const validator = createRegisterValidator();
 
 export const action: ActionFunction = async ({request}) => {
-  return withRegisterAction({request, validator});
+  return registerAuthenticator.authenticate('form', request, {
+    successRedirect: '/register/username',
+    failureRedirect: '/register',
+  });
+};
+
+
+export const loader: LoaderFunction = async ({request}) => {
+  await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
+  await registerAuthenticator.isAuthenticated(request, {successRedirect: '/register/username'});
+
+  const {error, session} = await loadSessionError(request, registerAuthenticator, registerSessionStorage);
+
+  return json<SessionLoaderData>({error}, {
+    headers: {
+      'Set-Cookie': await registerSessionStorage.commitSession(session),
+    },
+  });
 };
 
 export default function Register() {
+  const {error} = useLoaderData<SessionLoaderData>();
   const {t} = useTranslation();
 
   const [showPasswords, setShowPasswords] = useState(false);
@@ -47,6 +72,7 @@ export default function Register() {
                       onChange={() => setShowPasswords(!showPasswords)}/>
 
         <CguNotice/>
+        {error ? <FormErrorMessage i18nError={error.message}/> : null}
         <SubmitButton
           className="mt-3"
           label={t('auth.continue')}

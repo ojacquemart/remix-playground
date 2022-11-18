@@ -1,11 +1,12 @@
 import { AuthorizationError } from 'remix-auth';
+
 import { FormStrategy } from 'remix-auth-form';
 
-import { withLoginValidator } from '~/features/auth/login-validator';
+import { createLoginValidator } from '~/features/auth/login-validator';
 
-const validator = withLoginValidator();
+const validator = createLoginValidator();
 
-export const withLoginFormStrategy = () => new FormStrategy(async ({form}) => {
+export const createLoginFormStrategy = () => new FormStrategy(async ({form}) => {
   const data = await validator.validate(form);
   if (data.error) {
     throw new AuthorizationError('auth.login.validator.invalidData');

@@ -6,47 +6,42 @@ import { useTranslation } from 'react-i18next';
 
 import { ValidatedForm } from 'remix-validated-form';
 
-import { auth, sessionStorage } from '~/auth.server';
+import { loginAuthenticator, loginSessionStorage } from '~/features/auth/login-authenticator';
+import { createLoginValidator } from '~/features/auth/login-validator';
+import type { SessionLoaderData } from '~/features/auth/session';
+import { loadSessionError } from '~/features/auth/session';
 
 import { AuthOtherAction } from '~/features/auth/components/AuthOtherAction';
 import { AuthTitle } from '~/features/auth/components/AuthTitle';
-
-import { withLoginValidator } from '~/features/auth/login-validator';
 
 import { FormErrorMessage } from '~/features/core/components/form/FormErrorMessage';
 import { FormInput } from '~/features/core/components/form/FormInput';
 import { FormInputPassword } from '~/features/core/components/form/FormInputPassword';
 import { SubmitButton } from '~/features/core/components/form/SubmitButton';
 
-const validator = withLoginValidator();
-
-type LoaderData = {
-  error: { message: string } | null;
-};
+const validator = createLoginValidator();
 
 export const loader: LoaderFunction = async ({request}) => {
-  await auth.isAuthenticated(request, {successRedirect: '/'});
-  const session = await sessionStorage.getSession(
-    request.headers.get('Cookie'),
-  );
-  const error = session.get(auth.sessionErrorKey) as LoaderData['error'];
+  await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
 
-  return json<LoaderData>({error}, {
+  const {error, session} = await loadSessionError(request, loginAuthenticator, loginSessionStorage);
+
+  return json<SessionLoaderData>({error}, {
     headers: {
-      'Set-Cookie': await sessionStorage.commitSession(session),
+      'Set-Cookie': await loginSessionStorage.commitSession(session),
     },
   });
 };
 
 export const action: ActionFunction = async ({request}) => {
-  return auth.authenticate('form', request, {
+  return loginAuthenticator.authenticate('form', request, {
     successRedirect: '/',
     failureRedirect: '/login',
   });
 };
 
 export default function Login() {
-  const {error} = useLoaderData<LoaderData>();
+  const {error} = useLoaderData<SessionLoaderData>();
   const {t} = useTranslation();
 
   return (
