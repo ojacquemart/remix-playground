@@ -14,6 +14,7 @@ export const createCookieSession = (options: NewCookieOptions) => createCookieSe
     httpOnly: options.httpOnly ?? true,
     path: options.path ?? '/',
     sameSite: options.sameSite ?? 'lax',
+    maxAge: options.maxAge,
     // TODO: this should be an env variable
     secrets: ['s3cret'],
     secure: process.env.NODE_ENV === 'production',
@@ -33,10 +34,14 @@ export interface SessionLoadResponse {
   session: Session;
 }
 
-export const loadSessionError = async (request: Request, authenticator: Authenticator, sessionStorage: SessionStorage): Promise<SessionLoadResponse> => {
-  const session = await sessionStorage.getSession(
+export const getSession = async (request: Request, sessionStorage: SessionStorage): Promise<Session> => {
+  return sessionStorage.getSession(
     request.headers.get('Cookie'),
   );
+};
+
+export const loadSessionError = async (request: Request, authenticator: Authenticator, sessionStorage: SessionStorage): Promise<SessionLoadResponse> => {
+  const session = await getSession(request, sessionStorage);
   const error = session.get(authenticator.sessionErrorKey);
 
   return {error, session};
