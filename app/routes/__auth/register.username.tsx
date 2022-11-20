@@ -1,21 +1,19 @@
-import type { ActionFunction, LoaderFunction} from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 
 import { useTranslation } from 'react-i18next';
 
 import { ValidatedForm } from 'remix-validated-form';
 
+import { FormInput } from '~/features/core/components/form/FormInput';
+import { SubmitButton } from '~/features/core/components/form/SubmitButton';
+import { Hr } from '~/features/core/components/shared/Hr';
+
 import { AuthTitle } from '~/features/auth/components/AuthTitle';
 import { LogoutForm } from '~/features/auth/components/LogoutForm';
 
-import { loginAuthenticator } from '~/features/auth/login-authenticator';
 import { registerAuthenticator, registerSessionStorage } from '~/features/auth/register-authenticator';
 import { createUsernameValidator } from '~/features/auth/register-validator';
-
-import { FormInput } from '~/features/core/components/form/FormInput';
-import { SubmitButton } from '~/features/core/components/form/SubmitButton';
-
-import { Hr } from '~/features/core/components/shared/Hr';
 
 const validator = createUsernameValidator();
 
@@ -37,7 +35,7 @@ export const action: ActionFunction = async ({request}) => {
   // update username in the current register session
   user.username = formData.get('username') as string;
 
-  const session = await registerSessionStorage.getSession(request.headers.get('cookie'));
+  const session = await registerAuthenticator.getSession(request);
   session.set(registerAuthenticator.sessionKey, user);
 
   return redirect('/register/greetings', {
@@ -46,17 +44,16 @@ export const action: ActionFunction = async ({request}) => {
 };
 
 export const loader: LoaderFunction = async ({request}) => {
-  await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
-  const user = await registerAuthenticator.isAuthenticated(request, {failureRedirect: '/register'});
+  const user = await registerAuthenticator.redirectToHomeIfLoggedIn(request, {failureRedirect: '/register'});
 
-  if (user.username) {
+  if (user?.username) {
     return redirect('/register/greetings');
   }
 
   return json(null);
 };
 
-export default function Username() {
+export default function RegisterUsername() {
   const {t} = useTranslation();
 
   return (

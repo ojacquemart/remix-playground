@@ -6,10 +6,9 @@ import { useTranslation } from 'react-i18next';
 
 import { ValidatedForm } from 'remix-validated-form';
 
+import type { SessionLoaderData } from '~/features/auth/authenticator-enhanced';
 import { loginAuthenticator, loginSessionStorage } from '~/features/auth/login-authenticator';
 import { createLoginValidator } from '~/features/auth/login-validator';
-import type { SessionLoaderData } from '~/features/auth/session';
-import { loadSessionError } from '~/features/auth/session';
 
 import { AuthOtherAction } from '~/features/auth/components/AuthOtherAction';
 import { AuthTitle } from '~/features/auth/components/AuthTitle';
@@ -24,7 +23,7 @@ const validator = createLoginValidator();
 export const loader: LoaderFunction = async ({request}) => {
   await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
 
-  const {error, session} = await loadSessionError(request, loginAuthenticator, loginSessionStorage);
+  const {error, session} = await loginAuthenticator.loadErrorSession(request);
 
   return json<SessionLoaderData>({error}, {
     headers: {

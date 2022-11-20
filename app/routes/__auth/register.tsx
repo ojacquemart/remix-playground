@@ -1,5 +1,6 @@
-import type { ActionFunction , LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 import { useState } from 'react';
 
@@ -7,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ValidatedForm } from 'remix-validated-form';
 
-import { loginAuthenticator } from '~/features/auth/login-authenticator';
+import { SessionLoaderData } from '~/features/auth/authenticator-enhanced';
 import { registerAuthenticator, registerSessionStorage } from '~/features/auth/register-authenticator';
 import { createRegisterValidator } from '~/features/auth/register-validator';
 
@@ -16,13 +17,9 @@ import { AuthTitle } from '~/features/auth/components/AuthTitle';
 
 import { CguNotice } from '~/features/auth/components/CguNotice';
 import { FormCheckbox } from '~/features/core/components/form/FormCheckbox';
-
+import { FormErrorMessage } from '~/features/core/components/form/FormErrorMessage';
 import { FormInput } from '~/features/core/components/form/FormInput';
 import { SubmitButton } from '~/features/core/components/form/SubmitButton';
-import type { SessionLoaderData } from '~/features/auth/session';
-import { loadSessionError } from '~/features/auth/session';
-import { useLoaderData } from '@remix-run/react';
-import { FormErrorMessage } from '~/features/core/components/form/FormErrorMessage';
 
 const validator = createRegisterValidator();
 
@@ -33,12 +30,10 @@ export const action: ActionFunction = async ({request}) => {
   });
 };
 
-
 export const loader: LoaderFunction = async ({request}) => {
-  await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
-  await registerAuthenticator.isAuthenticated(request, {successRedirect: '/register/username'});
+  await registerAuthenticator.redirectToHomeIfLoggedIn(request, {successRedirect: '/register/username'});
 
-  const {error, session} = await loadSessionError(request, registerAuthenticator, registerSessionStorage);
+  const {error, session} = await registerAuthenticator.loadErrorSession(request);
 
   return json<SessionLoaderData>({error}, {
     headers: {

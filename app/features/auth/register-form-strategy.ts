@@ -18,3 +18,11 @@ export const createRegisterFormStrategy = () => new FormStrategy<NewUser>(async 
 
   return {email, password} as NewUser;
 });
+
+export const createRegisterV2FormStrategy = () => new FormStrategy<NewUser>(async ({form}) => {
+  const email = form.get('email');
+  const password = form.get('password');
+  const username = form.get('username');
+
+  return {email, password, username} as NewUser;
+});

@@ -1,16 +1,11 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { FormData, json, redirect } from '@remix-run/node';
 
-import type { AuthenticateOptions } from 'remix-auth';
-
 import { useLoaderData } from '@remix-run/react';
-
-import { loginAuthenticator } from '~/features/auth/login-authenticator';
 import type { NewUser } from '~/features/auth/new-user';
 import { registerAuthenticator } from '~/features/auth/register-authenticator';
 
 import { LogoutForm } from '~/features/auth/components/LogoutForm';
-
 import { Hr } from '~/features/core/components/shared/Hr';
 
 export const action: ActionFunction = async ({request}) => {
@@ -28,26 +23,20 @@ const loginUserFromRegisterData = async (user: NewUser, request: Request) => {
   formData.set('email', user?.email);
   formData.set('password', user?.password);
 
-  const options: AuthenticateOptions = {
-    name: 'form',
-    sessionKey: loginAuthenticator.sessionKey,
-    sessionErrorKey: loginAuthenticator.sessionErrorKey,
-    sessionStrategyKey: loginAuthenticator.sessionStrategyKey,
-    successRedirect: '/',
-    context: {formData},
-  };
-
-  return loginAuthenticator.authenticate('form', request, options);
+  return registerAuthenticator.login(request, formData);
 };
 
 export const loader: LoaderFunction = async ({request}) => {
-  await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
-  const user = await registerAuthenticator.isAuthenticated(request, {failureRedirect: '/register'});
+  const user = await registerAuthenticator.redirectToHomeIfLoggedIn(request, {failureRedirect: '/register'});
+
+  if (!user?.username) {
+    return redirect('/register/username');
+  }
 
   return json(user);
 };
 
-export default function Greetings() {
+export default function RegisterGreetings() {
   const data = useLoaderData();
 
   return (
