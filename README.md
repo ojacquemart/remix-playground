@@ -21,6 +21,8 @@ To run your Remix app locally, make sure your project's local dependencies are i
 npm install
 ```
 
+Then, copy/paste the `.env.example` to `.env`. This `.env` file should remain in the git ignore files.
+
 Afterwards, start the Remix development server like so:
 
 ```sh

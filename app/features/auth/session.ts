@@ -3,7 +3,7 @@ import type { CookieOptions } from '@remix-run/server-runtime';
 
 export type NewCookieOptions = (CookieOptions & {
   name?: string;
-})
+});
 
 export const createCookieSession = (options: NewCookieOptions) => createCookieSessionStorage({
   cookie: {
@@ -12,8 +12,7 @@ export const createCookieSession = (options: NewCookieOptions) => createCookieSe
     path: options.path ?? '/',
     sameSite: options.sameSite ?? 'lax',
     maxAge: options.maxAge,
-    // TODO: this should be an env variable
-    secrets: ['s3cret'],
+    secrets: [process.env.COOKIE_SESSION_SECRET as string],
     secure: process.env.NODE_ENV === 'production',
   },
 });
