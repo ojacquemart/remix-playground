@@ -12,7 +12,7 @@ import { loginAuthenticator } from '~/features/auth/login-authenticator';
 import { createRegisterFormStrategy } from '~/features/auth/register-form-strategy';
 
 export const registerSessionStorage = createCookieSession({
-  name: '__remix_new',
+  name: 'remix.register',
   path: '/register',
   // register cookie will expire after 15 minutes
   maxAge: 60 * 15,

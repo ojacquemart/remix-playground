@@ -3,7 +3,7 @@ import { createCookieSession } from '~/features/auth/session';
 import { AuthenticatorEnhanced } from '~/features/auth/authenticator-enhanced';
 
 export const loginSessionStorage = createCookieSession({
-  name: '__remix',
+  name: 'remix',
   path: '/',
 });
 
