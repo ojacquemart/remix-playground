@@ -4,8 +4,6 @@ import { useLoaderData } from '@remix-run/react';
 
 import { useState } from 'react';
 
-import { useTranslation } from 'react-i18next';
-
 import { ValidatedForm } from 'remix-validated-form';
 
 import { SessionLoaderData } from '~/features/auth/authenticator-enhanced';
@@ -44,39 +42,38 @@ export const loader: LoaderFunction = async ({request}) => {
 
 export default function Register() {
   const {error} = useLoaderData<SessionLoaderData>();
-  const {t} = useTranslation();
 
   const [showPasswords, setShowPasswords] = useState(false);
 
   return (
     <>
-      <AuthTitle label={t('auth.register.title')}/>
+      <AuthTitle i18nKey="auth.register.title"/>
 
       <ValidatedForm validator={validator} method="post" className="w-full">
         <FormInput name="email" type="text"
-                   label={t('auth.fields.email')}/>
+                   i18nKey="auth.fields.email"/>
 
         <FormInput name="password" type={showPasswords ? 'text' : 'password'}
-                   info={t('auth.register.passwordPolicy')}
-                   label={t('auth.fields.password')}/>
+                   i18nInfo="auth.register.passwordPolicy"
+                   i18nKey="auth.fields.password"/>
         <FormInput name="passwordConfirm" type={showPasswords ? 'text' : 'password'}
-                   label={t('auth.fields.passwordConfirm')}/>
+                   i18nKey="auth.fields.passwordConfirm"/>
 
 
-        <FormCheckbox label={t('auth.register.showPasswords')}
+        <FormCheckbox i18nKey="auth.register.showPasswords"
                       onChange={() => setShowPasswords(!showPasswords)}/>
 
         <CguNotice/>
-        {error ? <FormErrorMessage i18nError={error.message}/> : null}
+        {error ? <FormErrorMessage i18nKey={error.message}/> : null}
         <SubmitButton
           className="mt-3"
-          label={t('auth.continue')}
-          labelSubmitting={t('auth.continueSubmitting')}/>
+          i18nKey="auth.continue"
+          i18nKeySubmitting="auth.continueSubmitting"/>
       </ValidatedForm>
 
       <AuthOtherAction
-        questionLabel={t('auth.register.alreadyAccount')}
-        actionLabel={t('auth.register.loginInstead')}
+        i18nQuestion="auth.register.alreadyAccount"
+        i18nAction="auth.register.loginInstead"
         route="/login"
       />
     </>

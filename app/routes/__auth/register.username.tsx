@@ -1,8 +1,6 @@
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 
-import { useTranslation } from 'react-i18next';
-
 import { ValidatedForm } from 'remix-validated-form';
 
 import { FormInput } from '~/features/core/components/form/FormInput';
@@ -54,25 +52,23 @@ export const loader: LoaderFunction = async ({request}) => {
 };
 
 export default function RegisterUsername() {
-  const {t} = useTranslation();
-
   return (
     <>
-      <AuthTitle label={t('auth.register.username.title')}/>
+      <AuthTitle i18nKey="auth.register.username.title"/>
 
       <ValidatedForm validator={validator} method="post" className="w-full">
         <FormInput name="username" type="text"
-                   label={t('auth.fields.username')}/>
+                   i18nKey="auth.fields.username"/>
 
         <SubmitButton
           className="mt-3"
-          label={t('auth.continue')}
-          labelSubmitting={t('auth.continueSubmitting')}/>
+          i18nKey="auth.continue"
+          i18nKeySubmitting="auth.continueSubmitting"/>
       </ValidatedForm>
 
       <Hr></Hr>
 
-      <LogoutForm label="auth.register.cancel"/>
+      <LogoutForm i18nKey="auth.register.cancel"/>
     </>
   );
 }

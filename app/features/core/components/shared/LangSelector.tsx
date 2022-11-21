@@ -17,7 +17,6 @@ interface LangSelectorProps {
 }
 
 export const LangSelector = ({currentLang}: LangSelectorProps) => {
-
   const [langs] = useState(DEFAULT_LANGS);
 
   return (

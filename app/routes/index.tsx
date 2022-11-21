@@ -31,7 +31,7 @@ export default function Index() {
 
       <div className="w-3/4 sm:w-1/3 text-center">
         <Hr/>
-        <LogoutForm label={t('auth.logout.title')}/>
+        <LogoutForm i18nKey="auth.logout.title"/>
         <Hr/>
 
         <Resources/>

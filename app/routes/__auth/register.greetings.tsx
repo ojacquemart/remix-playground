@@ -46,7 +46,7 @@ export default function RegisterGreetings() {
 
       <Hr/>
 
-      <LogoutForm label="auth.register.greetings.home"></LogoutForm>
+      <LogoutForm i18nKey="auth.register.greetings.home"></LogoutForm>
     </>
   );
 }

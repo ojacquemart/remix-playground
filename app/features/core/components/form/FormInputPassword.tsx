@@ -1,12 +1,13 @@
+import { I18nProps } from '~/features/core/components/shared/props';
+
 import { FormInput } from '~/features/core/components/form/FormInput';
 
-interface InputPasswordProps {
+interface InputPasswordProps extends I18nProps {
   name: string;
-  label: string;
 }
 
-export const FormInputPassword = ({name, label}: InputPasswordProps) => {
+export const FormInputPassword = ({name, i18nKey}: InputPasswordProps) => {
   return (
-    <FormInput name={name} label={label} type="password"/>
+    <FormInput name={name} i18nKey={i18nKey} type="password"/>
   );
 };

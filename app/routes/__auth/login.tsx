@@ -2,8 +2,6 @@ import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import { useTranslation } from 'react-i18next';
-
 import { ValidatedForm } from 'remix-validated-form';
 
 import type { SessionLoaderData } from '~/features/auth/authenticator-enhanced';
@@ -41,27 +39,26 @@ export const action: ActionFunction = async ({request}) => {
 
 export default function Login() {
   const {error} = useLoaderData<SessionLoaderData>();
-  const {t} = useTranslation();
 
   return (
     <>
-      <AuthTitle label={t('auth.login.title')}/>
+      <AuthTitle i18nKey="auth.login.title"/>
 
       <ValidatedForm validator={validator} method="post" className="w-full">
-        <FormInput name="email" type="text" label={t('auth.fields.email')}/>
-        <FormInputPassword name="password" label={t('auth.fields.password')}/>
+        <FormInput name="email" type="text" i18nKey="auth.fields.email"/>
+        <FormInputPassword name="password" i18nKey="auth.fields.password"/>
 
-        {error ? <FormErrorMessage i18nError={error.message}/> : null}
+        {error ? <FormErrorMessage i18nKey={error.message}/> : null}
 
         <SubmitButton
           className="mt-5"
-          label={t('auth.continue')}
-          labelSubmitting={t('auth.continueSubmitting')}/>
+          i18nKey="auth.continue"
+          i18nKeySubmitting="auth.continueSubmitting"/>
       </ValidatedForm>
 
       <AuthOtherAction
-        questionLabel={t('auth.login.noAccount')}
-        actionLabel={t('auth.login.registerInstead')}
+        i18nQuestion="auth.login.noAccount"
+        i18nAction="auth.login.registerInstead"
         route="/register"/>
     </>
   );
