@@ -17,12 +17,7 @@ export const FormInput = ({name, info, label, type}: FormInputProps) => {
     <div className="mb-2">
       <label htmlFor={name} className="text-xl uppercase">{label}</label>
       <input type={type ?? 'string'}
-             className="w-full p-2
-          text-xl text-zinc-800 font-medium
-          bg-gray-100
-          rounded-lg border border-gray-200
-          placeholder-gray-500
-          focus-visible:outline-gray-400 focus:border-gray-400 focus:bg-white"
+             className="w-full p-2 text-xl text-zinc-800 font-medium bg-gray-100 rounded-lg border border-gray-200 placeholder-gray-500 focus-visible:outline-gray-400 focus:border-gray-400 focus:bg-white"
              {...getInputProps({id: name})}
       />
       {info && <FormInputInfo label={info}/>}
