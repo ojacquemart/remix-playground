@@ -10,6 +10,8 @@ import type { NewUser } from '~/features/auth/new-user';
 import { AuthenticatorEnhanced } from '~/features/auth/authenticator-enhanced';
 import { loginAuthenticator } from '~/features/auth/login-authenticator';
 import { createRegisterFormStrategy } from '~/features/auth/register-form-strategy';
+import { Validator } from 'remix-validated-form';
+import { registerValidator } from '~/features/auth/register-validator';
 
 export const registerSessionStorage = createCookieSession({
   name: 'remix.register',
@@ -20,10 +22,9 @@ export const registerSessionStorage = createCookieSession({
 
 class RegisterAuthenticator<User = NewUser> extends AuthenticatorEnhanced<User> {
   constructor(sessionStorage: SessionStorage,
+              validator: Validator<any>,
               private loginAuthenticator: Authenticator) {
-    super(sessionStorage);
-
-    this.loginAuthenticator = loginAuthenticator;
+    super(sessionStorage, validator);
   }
 
   async redirectToHomeIfLoggedIn(
@@ -57,5 +58,9 @@ class RegisterAuthenticator<User = NewUser> extends AuthenticatorEnhanced<User> 
   }
 }
 
-export const registerAuthenticator = new RegisterAuthenticator<NewUser>(registerSessionStorage, loginAuthenticator);
+export const registerAuthenticator = new RegisterAuthenticator<NewUser>(
+  registerSessionStorage,
+  registerValidator,
+  loginAuthenticator,
+);
 registerAuthenticator.use(createRegisterFormStrategy());

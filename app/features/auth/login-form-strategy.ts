@@ -6,10 +6,6 @@ import { AuthorizationError } from 'remix-auth';
 
 import { FormStrategy } from 'remix-auth-form';
 
-import { createLoginValidator } from '~/features/auth/login-validator';
-
-const validator = createLoginValidator();
-
 export class LoginFormStrategy<User> extends FormStrategy<User> {
   protected async success(user: User, request: Request, sessionStorage: SessionStorage, options: AuthenticateOptions): Promise<User> {
     try {
@@ -44,11 +40,6 @@ export class LoginFormStrategy<User> extends FormStrategy<User> {
 }
 
 export const createLoginFormStrategy = () => new LoginFormStrategy(async ({form}) => {
-  const data = await validator.validate(form);
-  if (data.error) {
-    throw new AuthorizationError('auth.login.validator.invalidData');
-  }
-
   const password = form.get('password');
   if (password !== 'test') {
     throw new AuthorizationError('auth.login.invalidCredentials');

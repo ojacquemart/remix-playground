@@ -12,5 +12,5 @@ export const loginSchema = z.object({
     .min(1, {message: 'auth.login.validator.password'}),
 });
 
-export const createLoginValidator = () => withZod(loginSchema);
+export const loginValidator = withZod(loginSchema);
 

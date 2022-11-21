@@ -1,7 +1,9 @@
-import { Session } from '@remix-run/node';
+import { Session, TypedResponse } from '@remix-run/node';
 import { SessionStorage } from '@remix-run/server-runtime';
 
-import { Authenticator } from 'remix-auth';
+import { AuthenticateOptions, Authenticator } from 'remix-auth';
+
+import { validationError, ValidationErrorResponseData, Validator } from 'remix-validated-form';
 
 export interface SessionLoaderData {
   error: ErrorMessage | null;
@@ -17,6 +19,26 @@ export interface SessionLoadResponse {
 }
 
 export class AuthenticatorEnhanced<User> extends Authenticator<User> {
+
+  constructor(sessionStorage: SessionStorage, private validator: Validator<any>) {
+    super(sessionStorage);
+  }
+
+  async safeAuthenticate(strategy: string, request: Request,
+                         options?: Pick<AuthenticateOptions, 'successRedirect' | 'failureRedirect' | 'throwOnError' | 'context'>): Promise<User | TypedResponse<ValidationErrorResponseData>> {
+    const formData = await request.formData();
+    const data = await this.validator.validate(formData);
+
+    if (data.error) {
+      return validationError(data.error);
+    }
+
+    return await super.authenticate(strategy, request, {
+      ...options,
+      context: {formData},
+    });
+  }
+
   async loadErrorSession(request: Request): Promise<SessionLoadResponse> {
     const session = await this.getSession(request);
     const error = session.get(this.sessionErrorKey);

@@ -8,7 +8,7 @@ import { ValidatedForm } from 'remix-validated-form';
 
 import { SessionLoaderData } from '~/features/auth/authenticator-enhanced';
 import { registerAuthenticator, registerSessionStorage } from '~/features/auth/register-authenticator';
-import { createRegisterValidator } from '~/features/auth/register-validator';
+import { registerValidator } from '~/features/auth/register-validator';
 
 import { AuthOtherAction } from '~/features/auth/components/AuthOtherAction';
 import { AuthTitle } from '~/features/auth/components/AuthTitle';
@@ -18,8 +18,6 @@ import { FormCheckbox } from '~/features/core/components/form/FormCheckbox';
 import { FormErrorMessage } from '~/features/core/components/form/FormErrorMessage';
 import { FormInput } from '~/features/core/components/form/FormInput';
 import { SubmitButton } from '~/features/core/components/form/SubmitButton';
-
-const validator = createRegisterValidator();
 
 export const action: ActionFunction = async ({request}) => {
   return registerAuthenticator.authenticate('form', request, {
@@ -49,7 +47,7 @@ export default function Register() {
     <>
       <AuthTitle i18nKey="auth.register.title"/>
 
-      <ValidatedForm validator={validator} method="post" className="w-full">
+      <ValidatedForm validator={registerValidator} method="post" className="w-full">
         <FormInput name="email" type="text"
                    i18nKey="auth.fields.email"/>
 

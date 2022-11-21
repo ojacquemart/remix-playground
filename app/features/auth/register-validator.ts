@@ -21,7 +21,7 @@ const registerSchema = z.object({
     },
   );
 
-export const createRegisterValidator = () => withZod(registerSchema);
+export const registerValidator = withZod(registerSchema);
 
 const usernameSchema = z.object({
   username: z

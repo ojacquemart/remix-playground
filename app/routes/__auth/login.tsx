@@ -6,7 +6,7 @@ import { ValidatedForm } from 'remix-validated-form';
 
 import type { SessionLoaderData } from '~/features/auth/authenticator-enhanced';
 import { loginAuthenticator, loginSessionStorage } from '~/features/auth/login-authenticator';
-import { createLoginValidator } from '~/features/auth/login-validator';
+import { loginValidator } from '~/features/auth/login-validator';
 
 import { AuthOtherAction } from '~/features/auth/components/AuthOtherAction';
 import { AuthTitle } from '~/features/auth/components/AuthTitle';
@@ -15,8 +15,6 @@ import { FormErrorMessage } from '~/features/core/components/form/FormErrorMessa
 import { FormInput } from '~/features/core/components/form/FormInput';
 import { FormInputPassword } from '~/features/core/components/form/FormInputPassword';
 import { SubmitButton } from '~/features/core/components/form/SubmitButton';
-
-const validator = createLoginValidator();
 
 export const loader: LoaderFunction = async ({request}) => {
   await loginAuthenticator.isAuthenticated(request, {successRedirect: '/'});
@@ -31,7 +29,7 @@ export const loader: LoaderFunction = async ({request}) => {
 };
 
 export const action: ActionFunction = async ({request}) => {
-  return loginAuthenticator.authenticate('form', request, {
+  return loginAuthenticator.safeAuthenticate('form', request, {
     successRedirect: '/',
     failureRedirect: '/login',
   });
@@ -44,7 +42,7 @@ export default function Login() {
     <>
       <AuthTitle i18nKey="auth.login.title"/>
 
-      <ValidatedForm validator={validator} method="post" className="w-full">
+      <ValidatedForm validator={loginValidator} method="post" className="w-full">
         <FormInput name="email" type="text" i18nKey="auth.fields.email"/>
         <FormInputPassword name="password" i18nKey="auth.fields.password"/>
 
